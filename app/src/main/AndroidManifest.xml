@@ -10,8 +10,18 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/burger_logo2"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".RestaurantActivity"></activity>
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".FoodActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".RestaurantActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".StartupActivity"
             android:screenOrientation="portrait"
@@ -22,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

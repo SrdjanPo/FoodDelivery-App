@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.models
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,55 +8,58 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fooddeliveryapp.R
+import com.example.fooddeliveryapp.RestaurantActivity
 import kotlinx.android.synthetic.main.layout_restaurant_list_item.view.*
 
-class RestaurantRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RestaurantRecyclerAdapter(val restaurants : List<Restaurant>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var items: List<Restaurant> = ArrayList()
-    private lateinit var onRestaurantItemClickLestener: OnRestaurantItemClickLestener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return  RestaurantViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_restaurant_list_item, parent, false), onRestaurantItemClickLestener
+            LayoutInflater.from(parent.context).inflate(R.layout.layout_restaurant_list_item, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         when(holder){
 
             is RestaurantViewHolder ->{
-                holder.bind(items.get(position))
+                holder.bind(restaurants.get(position))
+                holder.restaurant = restaurants.get(position)
             }
         }
+
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return restaurants.count()
     }
 
-    fun submitList(restaurantList: List<Restaurant>, onRestaurantClickListener: OnRestaurantItemClickLestener) {
+    /*fun submitList(restaurantList: List<Restaurant>, onRestaurantClickListener: OnRestaurantItemClickListener) {
 
         items = restaurantList
-        onRestaurantItemClickLestener = onRestaurantClickListener
-    }
+        onRestaurantItemClickListener = onRestaurantClickListener
 
-    class RestaurantViewHolder constructor(
-        itemView: View,
-        onRestaurantItemClickLestener: OnRestaurantItemClickLestener
-    ):RecyclerView.ViewHolder(itemView), View.OnClickListener{
+        Log.d("RECYCLER", items.toString())
+    }*/
+
+    class RestaurantViewHolder( itemView: View, var restaurant: Restaurant? = null) : RecyclerView.ViewHolder(itemView) {
 
         val restaurantImage = itemView.restaurant_image
         val restaurantTitle = itemView.restaurant_name
         val restaurantName = itemView.about_restaurant
-        val onRestaurantItemClickLestener = onRestaurantItemClickLestener
-
 
         fun bind (restaurantPost: Restaurant){
 
-            itemView.setOnClickListener(this)
 
-            restaurantTitle.setText(restaurantPost.name)
-            restaurantName.setText(restaurantPost.about)
+            restaurantTitle.setText(restaurantPost.ime)
+            restaurantName.setText(restaurantPost.opis)
+
+            var restaurantId = restaurantPost.id.toString()
+
+            var image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/restorani/".plus(restaurantId).plus(".jpg")
+
 
             val requestOptions = RequestOptions()
                 .placeholder(R.drawable.ic_launcher_background)
@@ -63,18 +67,28 @@ class RestaurantRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 
             Glide.with(itemView.context)
                 .applyDefaultRequestOptions(requestOptions)
-                .load(restaurantPost.image)
+                .load(image_url)
                 .into(restaurantImage)
         }
 
-        override fun onClick(v: View?) {
-
-            onRestaurantItemClickLestener.onItemClick(adapterPosition)
+        init {
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, RestaurantActivity::class.java)
+                intent.putExtra(RESTAURANT, restaurant)
+                itemView.context.startActivity(intent)
+            }
         }
 
     }
 
-     interface OnRestaurantItemClickLestener {
+    companion object {
+        const val RESTAURANT = "restaurant"
+        lateinit var restaurantActivity: RestaurantActivity
+
+    }
+
+
+    interface OnRestaurantItemClickListener {
         fun onItemClick(position: Int)
     }
 

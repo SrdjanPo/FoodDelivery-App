@@ -4,12 +4,11 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Restaurant(
+data class Food(
     var id: Int,
-    var adresa: String,
-    var email: String,
+    var cijena: Int,
     var ime: String,
     var opis: String,
-    var tel: String
-
-) : Parcelable
+    var sastav: String,
+    var restoranBean: Restaurant
+): Parcelable

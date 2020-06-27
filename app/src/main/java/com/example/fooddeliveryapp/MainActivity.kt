@@ -1,16 +1,21 @@
 package com.example.fooddeliveryapp
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fooddeliveryapp.models.Restaurant
 import com.example.fooddeliveryapp.models.RestaurantRecyclerAdapter
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.*
+import java.io.IOException
 
-class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurantItemClickLestener {
+class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurantItemClickListener {
 
+
+    private var dataSet: List<Restaurant> = emptyList()
 
     private lateinit var restaurantAdapter: RestaurantRecyclerAdapter
 
@@ -18,40 +23,85 @@ class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurant
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initRecyclerView()
-        addDataSet()
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        val topSpacingDecoration = TopSpacingItemDecoration(40)
+        recycler_view.addItemDecoration(topSpacingDecoration)
+
+        fetchJson()
+
+        //initRecyclerView()
+        //addDataSet()
+
     }
 
-    private fun addDataSet() {
+    /*private fun addDataSet() {
 
-        val data = DataSource.createDataSet()
+        val data = fetchJson()
         restaurantAdapter.submitList(data, this)
 
-    }
+        Log.d("MAIN", data.toString())
 
-    private fun initRecyclerView() {
+    }*/
+
+    /*private fun initRecyclerView() {
         recycler_view.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             val topSpacingDecoration = TopSpacingItemDecoration(40)
             addItemDecoration(topSpacingDecoration)
-            restaurantAdapter = RestaurantRecyclerAdapter()
-            adapter = restaurantAdapter
+            //adapter = RestaurantRecyclerAdapter()
         }
-    }
-    override fun onItemClick(position: Int) {
-        var dataSet = DataSource.createDataSet()
 
-        Log.d("Item: ", dataSet[position].toString())
+    }*/
+
+    override fun onItemClick(position: Int) {
+        /*var dataSet = fetchJson()
 
         val intent = Intent(this, RestaurantActivity::class.java)
-        intent.putExtra(RESTAURANT, dataSet[position])
-        startActivity(intent)
+        //intent.putExtra(RESTAURANT, dataSet[position])
+        startActivity(intent)*/
+
+        Log.d("TAG", "onItemClicked: CLICK")
 
     }
 
-    companion object {
+    fun fetchJson() {
 
-        const val RESTAURANT = "restaurant"
+        val url =  "http://ec2-52-59-235-7.eu-central-1.compute.amazonaws.com:8080/restoran"
+        val request = Request.Builder().url(url).build()
+        val client = OkHttpClient()
+
+        client.newCall(request).enqueue(object: Callback {
+
+            override fun onResponse(call: Call, response: Response) {
+
+
+                val body = response.body?.string()
+
+                val gson = GsonBuilder().create()
+
+                val collectionType = object : TypeToken<List<Restaurant>>() {}.type
+
+                val restaurants = gson
+                    .fromJson(body, collectionType) as List<Restaurant>
+
+                Log.d("uspesno", restaurants.toString())
+
+                dataSet = restaurants
+
+
+                runOnUiThread {
+                    recycler_view.adapter = RestaurantRecyclerAdapter(restaurants)
+                }
+
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+
+                println("Failed to execute request restaurants")
+            }
+
+        })
+
     }
 
 }

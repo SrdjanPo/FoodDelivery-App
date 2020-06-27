@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RestaurantActivity">
+    tools:context=".RestaurantActivity"
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/restaurantBasicInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="match_parent"
@@ -58,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/restaurant_name"
                 android:text="Name of the Restaurant"
-                android:textColor="#000"
+                android:textColor="#2E2E2E"
                 android:textSize="22sp"
                 android:layout_marginTop="10dp"
                 />
@@ -112,10 +120,35 @@
                 android:drawablePadding="5dp"
                 android:gravity="left|center"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grayLine"
+                android:layout_marginVertical="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#2E2E2E">
+            </TextView>
+
         </LinearLayout>
 
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/food_recyclerview"
+        app:layout_constraintTop_toBottomOf="@id/restaurantBasicInfo"
+        android:background="@color/white">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
