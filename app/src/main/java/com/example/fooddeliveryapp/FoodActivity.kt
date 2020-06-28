@@ -30,21 +30,11 @@ class FoodActivity : AppCompatActivity() {
             )
         }
 
-        /*ViewCompat.setOnApplyWindowInsetsListener(
-            dodatni_komentar
-        ) { view, insets ->
-            ViewCompat.onApplyWindowInsets(
-                dodatni_komentar,
-                insets.replaceSystemWindowInsets(
-                    insets.systemWindowInsetLeft, 0,
-                    insets.systemWindowInsetRight, insets.systemWindowInsetBottom
-                )
-            )
-        }*/
 
         intent.let {
-            val food = intent.extras!!.getParcelable(FoodRecyclerAdapter.FOOD) as Food?
+            val food = intent.extras!!.getParcelable("items") as Food?
 
+            foodItem.clear()
             foodItem.add(food!!)
 
             food_name.text = food!!.ime

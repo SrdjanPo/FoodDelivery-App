@@ -2,6 +2,7 @@ package com.example.fooddeliveryapp.models
 
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,11 @@ import kotlinx.android.synthetic.main.layout_food_list_item.view.*
 
 
 
-class FoodRecyclerAdapter (val foods : List<Food>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //private var indexOfColoredItem = -1
+
+    //private lateinit var mCallback: AddOrderListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return  FoodViewHolder(
@@ -37,6 +40,13 @@ class FoodRecyclerAdapter (val foods : List<Food>) : RecyclerView.Adapter<Recycl
                     notifyDataSetChanged()
                     holder.internalCounter++
                     clickCounter++
+
+                }
+
+                holder.itemView.order_button.setOnClickListener {
+
+                    orderList.add(foods.get(position))
+                    mCallback.onOrderAdded(orderList)
                 }
 
             }
@@ -68,7 +78,10 @@ class FoodRecyclerAdapter (val foods : List<Food>) : RecyclerView.Adapter<Recycl
         val extendedFoodPrice = itemView.extendedFood_price
         val orderButton = itemView.order_button
 
+
         var internalCounter = 1
+
+        //var orderList = arrayListOf<Food>()
 
         fun bind (foodPost: Food, pos: Int){
 
@@ -79,6 +92,7 @@ class FoodRecyclerAdapter (val foods : List<Food>) : RecyclerView.Adapter<Recycl
 
                 basicFoodLayout.visibility = View.GONE
                 extendedFoodLayout.visibility = View.VISIBLE
+
 
 
             } else {
@@ -99,6 +113,7 @@ class FoodRecyclerAdapter (val foods : List<Food>) : RecyclerView.Adapter<Recycl
             extendedFoodContent.setText(foodPost.sastav)
             foodPrice.setText(foodPost.cijena.toString().plus(" дин"))
             extendedFoodPrice.setText(foodPost.cijena.toString().plus(" дин"))
+
 
             var foodId = foodPost.id.toString()
 
@@ -125,8 +140,11 @@ class FoodRecyclerAdapter (val foods : List<Food>) : RecyclerView.Adapter<Recycl
             orderButton.setOnClickListener {
 
                 orderList.add(foodPost)
+                Log.d("BIND KORPA", orderList.toString())
             }
+
         }
+
 
         /*init {
             itemView.setOnClickListener {
@@ -143,6 +161,10 @@ class FoodRecyclerAdapter (val foods : List<Food>) : RecyclerView.Adapter<Recycl
         var indeks: Int = -1
         var clickCounter: Int = 1
         var orderList = arrayListOf<Food>()
+    }
+
+    interface AddOrderListener {
+        fun onOrderAdded(orders: ArrayList<Food>)
     }
 
 }

@@ -84,7 +84,6 @@ class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurant
                 val restaurants = gson
                     .fromJson(body, collectionType) as List<Restaurant>
 
-                Log.d("uspesno", restaurants.toString())
 
                 dataSet = restaurants
 

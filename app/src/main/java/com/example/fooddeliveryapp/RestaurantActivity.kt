@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
@@ -9,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_restaurant.*
 import android.view.WindowManager
 import android.os.Build
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.models.Food
 import com.example.fooddeliveryapp.models.FoodRecyclerAdapter
@@ -19,13 +21,17 @@ import okhttp3.*
 import java.io.IOException
 
 
-class RestaurantActivity : AppCompatActivity() {
+class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderListener {
+
 
     private var restaurantId: Int = 0
+
+    private var listItems = arrayListOf<Food>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant)
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             val w = window
@@ -35,13 +41,11 @@ class RestaurantActivity : AppCompatActivity() {
             )
         }
 
-        if (FoodRecyclerAdapter.orderList.isEmpty()) {
+        cartLayout.setOnClickListener {
 
-            Log.d("KORPA", "PRAZNO")
-
-        } else {
-
-            Log.d("KORPA",FoodRecyclerAdapter.orderList.toString())
+            val intent = Intent(this, FoodActivity::class.java)
+            intent.putExtra("items", listItems)
+            startActivity(intent)
         }
 
         food_recyclerview.layoutManager = LinearLayoutManager(this)
@@ -51,12 +55,11 @@ class RestaurantActivity : AppCompatActivity() {
         intent.let {
             val restaurant = intent.extras!!.getParcelable(RestaurantRecyclerAdapter.RESTAURANT) as Restaurant?
 
-            /*val foodItem = intent.extras!!.getParcelable(FoodActivity.FOOD_ITEM) as Food?
-            Log.d("PRIMLJENO", foodItem.toString())*/
 
             restaurant_name.text = restaurant!!.ime
             about_restaurant.text = restaurant.opis
             restaurant_address.text = restaurant.adresa
+            working_hours.text = restaurant.radnoVrijeme
 
             restaurantId = restaurant.id
 
@@ -86,6 +89,9 @@ class RestaurantActivity : AppCompatActivity() {
         fetchFood()
 
         backButton.setOnClickListener {
+            FoodRecyclerAdapter.orderList.clear()
+            listItems.clear()
+
             FoodRecyclerAdapter.clickCounter = 1
             onBackPressed()
         }
@@ -116,7 +122,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 
                 runOnUiThread {
-                    food_recyclerview.adapter = FoodRecyclerAdapter(foods)
+                    food_recyclerview.adapter = FoodRecyclerAdapter(foods, this@RestaurantActivity)
                 }
 
             }
@@ -130,9 +136,38 @@ class RestaurantActivity : AppCompatActivity() {
 
     }
 
-    fun finishMe() {
+    override fun onOrderAdded(orders: ArrayList<Food>) {
 
-        finish()
+        listItems.clear()
+
+        listItems.addAll(orders)
+
+
+        var sumPrice = 0
+
+        for(item in listItems) {
+
+            sumPrice = sumPrice + item.cijena
+        }
+
+        if (listItems.isEmpty()) {
+
+            cartLayout.visibility = View.GONE
+
+        } else {
+
+            orderCount.text = listItems.count().toString().plus("x")
+            orderTotal.text = sumPrice.toString().plus(" дин.")
+            cartLayout.visibility = View.VISIBLE
+        }
+    }
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        FoodRecyclerAdapter.orderList.clear()
+
     }
 
 }

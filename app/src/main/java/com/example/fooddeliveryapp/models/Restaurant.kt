@@ -10,6 +10,8 @@ data class Restaurant(
     var email: String,
     var ime: String,
     var opis: String,
+    var cijenaDostave: Int,
+    var radnoVrijeme: String,
     var tel: String
 
 ) : Parcelable

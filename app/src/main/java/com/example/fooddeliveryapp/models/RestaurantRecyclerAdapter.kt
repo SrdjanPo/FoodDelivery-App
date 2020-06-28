@@ -49,12 +49,14 @@ class RestaurantRecyclerAdapter(val restaurants : List<Restaurant>) : RecyclerVi
         val restaurantImage = itemView.restaurant_image
         val restaurantTitle = itemView.restaurant_name
         val restaurantName = itemView.about_restaurant
+        val restaurantOrderPrice = itemView.restaurant_orderPrice
 
         fun bind (restaurantPost: Restaurant){
 
 
             restaurantTitle.setText(restaurantPost.ime)
             restaurantName.setText(restaurantPost.opis)
+            restaurantOrderPrice.setText(restaurantPost.cijenaDostave.toString().plus(" дин • Delivery"))
 
             var restaurantId = restaurantPost.id.toString()
 
