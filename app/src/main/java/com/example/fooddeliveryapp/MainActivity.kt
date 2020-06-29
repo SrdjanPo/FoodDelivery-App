@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.models.Restaurant
-import com.example.fooddeliveryapp.models.RestaurantRecyclerAdapter
+import com.example.fooddeliveryapp.adapters.RestaurantRecyclerAdapter
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
@@ -89,7 +89,8 @@ class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurant
 
 
                 runOnUiThread {
-                    recycler_view.adapter = RestaurantRecyclerAdapter(restaurants)
+                    recycler_view.adapter =
+                        RestaurantRecyclerAdapter(restaurants)
                 }
 
             }

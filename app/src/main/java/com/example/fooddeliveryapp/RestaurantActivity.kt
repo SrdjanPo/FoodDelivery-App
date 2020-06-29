@@ -9,12 +9,11 @@ import com.example.fooddeliveryapp.models.Restaurant
 import kotlinx.android.synthetic.main.activity_restaurant.*
 import android.view.WindowManager
 import android.os.Build
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.models.Food
-import com.example.fooddeliveryapp.models.FoodRecyclerAdapter
-import com.example.fooddeliveryapp.models.RestaurantRecyclerAdapter
+import com.example.fooddeliveryapp.adapters.FoodRecyclerAdapter
+import com.example.fooddeliveryapp.adapters.RestaurantRecyclerAdapter
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
@@ -25,7 +24,7 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
 
     private var restaurantId: Int = 0
-
+    private var cijenaDostave: Int = 0
     private var listItems = arrayListOf<Food>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +43,7 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
         cartLayout.setOnClickListener {
 
             val intent = Intent(this, FoodActivity::class.java)
-            intent.putExtra("items", listItems)
+            intent.putParcelableArrayListExtra("order_list", listItems)
             startActivity(intent)
         }
 
@@ -60,8 +59,10 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
             about_restaurant.text = restaurant.opis
             restaurant_address.text = restaurant.adresa
             working_hours.text = restaurant.radnoVrijeme
+            restaurant_delivery.text = restaurant.cijenaDostave.toString().plus(" дин • Delivery")
 
             restaurantId = restaurant.id
+            cijenaDostave = restaurant.cijenaDostave
 
             var restaurantId = restaurant.id.toString()
 
@@ -122,7 +123,11 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
 
                 runOnUiThread {
-                    food_recyclerview.adapter = FoodRecyclerAdapter(foods, this@RestaurantActivity)
+                    food_recyclerview.adapter =
+                        FoodRecyclerAdapter(
+                            foods,
+                            this@RestaurantActivity
+                        )
                 }
 
             }
@@ -156,8 +161,10 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
         } else {
 
+            var totalWithDelivery = sumPrice + cijenaDostave
+
             orderCount.text = listItems.count().toString().plus("x")
-            orderTotal.text = sumPrice.toString().plus(" дин.")
+            orderTotal.text = totalWithDelivery.toString().plus(" дин.")
             cartLayout.visibility = View.VISIBLE
         }
     }
@@ -168,6 +175,11 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
         FoodRecyclerAdapter.orderList.clear()
 
+    }
+
+    companion object {
+
+         val ORDER_LIST = "orderList"
     }
 
 }

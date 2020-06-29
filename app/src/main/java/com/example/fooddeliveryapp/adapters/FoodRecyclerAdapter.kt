@@ -1,7 +1,5 @@
-package com.example.fooddeliveryapp.models
+package com.example.fooddeliveryapp.adapters
 
-import android.content.Intent
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.fooddeliveryapp.FoodActivity
 import com.example.fooddeliveryapp.R
+import com.example.fooddeliveryapp.models.Food
 import kotlinx.android.synthetic.main.layout_food_list_item.view.*
 
 
@@ -22,8 +20,12 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
     //private lateinit var mCallback: AddOrderListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return  FoodViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_food_list_item, parent, false)
+        return FoodViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.layout_food_list_item,
+                parent,
+                false
+            )
         )
     }
 
@@ -46,6 +48,7 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
                 holder.itemView.order_button.setOnClickListener {
 
                     orderList.add(foods.get(position))
+                    Log.d("BIND KORPA", orderList.toString())
                     mCallback.onOrderAdded(orderList)
                 }
 
@@ -117,11 +120,9 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
 
             var foodId = foodPost.id.toString()
 
-            //var image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/jelo/".plus(foodId).plus(".png")
+            var image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/jelo/".plus(foodId).plus(".jpg")
 
-            //https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80
-
-            var image_url = "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+            //var image_url = "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
 
             val requestOptions = RequestOptions()
                 .placeholder(R.drawable.ic_launcher_background)
@@ -137,11 +138,10 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
                 .load(image_url)
                 .into(extendedFoodImage)
 
-            orderButton.setOnClickListener {
+            /*orderButton.setOnClickListener {
 
                 orderList.add(foodPost)
-                Log.d("BIND KORPA", orderList.toString())
-            }
+            }*/
 
         }
 

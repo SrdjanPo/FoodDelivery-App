@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.models
+package com.example.fooddeliveryapp.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,14 +9,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.RestaurantActivity
+import com.example.fooddeliveryapp.models.Restaurant
 import kotlinx.android.synthetic.main.layout_restaurant_list_item.view.*
 
 class RestaurantRecyclerAdapter(val restaurants : List<Restaurant>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return  RestaurantViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_restaurant_list_item, parent, false)
+        return RestaurantViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.layout_restaurant_list_item,
+                parent,
+                false
+            )
         )
     }
 

@@ -10,5 +10,6 @@ data class Food(
     var ime: String,
     var opis: String,
     var sastav: String,
+    var kategorijaBean: Category,
     var restoranBean: Restaurant
 ): Parcelable
