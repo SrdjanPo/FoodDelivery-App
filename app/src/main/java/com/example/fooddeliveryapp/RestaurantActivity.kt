@@ -164,7 +164,7 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
             var totalWithDelivery = sumPrice + cijenaDostave
 
             orderCount.text = listItems.count().toString().plus("x")
-            orderTotal.text = totalWithDelivery.toString().plus(" дин.")
+            orderTotal.text = totalWithDelivery.toString().plus(" дин")
             cartLayout.visibility = View.VISIBLE
         }
     }

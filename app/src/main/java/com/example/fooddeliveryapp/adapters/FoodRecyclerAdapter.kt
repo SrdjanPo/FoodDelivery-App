@@ -118,9 +118,9 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
             extendedFoodPrice.setText(foodPost.cijena.toString().plus(" дин"))
 
 
-            var foodId = foodPost.id.toString()
+            val foodId = foodPost.id.toString()
 
-            var image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/jelo/".plus(foodId).plus(".jpg")
+            val image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/jelo/".plus(foodId).plus(".jpg")
 
             //var image_url = "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
 
@@ -138,21 +138,7 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
                 .load(image_url)
                 .into(extendedFoodImage)
 
-            /*orderButton.setOnClickListener {
-
-                orderList.add(foodPost)
-            }*/
-
         }
-
-
-        /*init {
-            itemView.setOnClickListener {
-                *//*val intent = Intent(itemView.context, FoodActivity::class.java)
-                intent.putExtra(FOOD, food)
-                itemView.context.startActivity(intent)*//*
-            }
-        }*/
 
     }
 

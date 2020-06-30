@@ -41,13 +41,6 @@ class RestaurantRecyclerAdapter(val restaurants : List<Restaurant>) : RecyclerVi
         return restaurants.count()
     }
 
-    /*fun submitList(restaurantList: List<Restaurant>, onRestaurantClickListener: OnRestaurantItemClickListener) {
-
-        items = restaurantList
-        onRestaurantItemClickListener = onRestaurantClickListener
-
-        Log.d("RECYCLER", items.toString())
-    }*/
 
     class RestaurantViewHolder( itemView: View, var restaurant: Restaurant? = null) : RecyclerView.ViewHolder(itemView) {
 

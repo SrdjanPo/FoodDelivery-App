@@ -15,10 +15,6 @@ import java.io.IOException
 class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurantItemClickListener {
 
 
-    private var dataSet: List<Restaurant> = emptyList()
-
-    private lateinit var restaurantAdapter: RestaurantRecyclerAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,29 +25,8 @@ class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurant
 
         fetchJson()
 
-        //initRecyclerView()
-        //addDataSet()
-
     }
 
-    /*private fun addDataSet() {
-
-        val data = fetchJson()
-        restaurantAdapter.submitList(data, this)
-
-        Log.d("MAIN", data.toString())
-
-    }*/
-
-    /*private fun initRecyclerView() {
-        recycler_view.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            val topSpacingDecoration = TopSpacingItemDecoration(40)
-            addItemDecoration(topSpacingDecoration)
-            //adapter = RestaurantRecyclerAdapter()
-        }
-
-    }*/
 
     override fun onItemClick(position: Int) {
         /*var dataSet = fetchJson()
@@ -83,10 +58,6 @@ class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurant
 
                 val restaurants = gson
                     .fromJson(body, collectionType) as List<Restaurant>
-
-
-                dataSet = restaurants
-
 
                 runOnUiThread {
                     recycler_view.adapter =
