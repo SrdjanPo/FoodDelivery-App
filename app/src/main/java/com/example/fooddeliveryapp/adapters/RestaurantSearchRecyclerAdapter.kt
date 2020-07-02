@@ -4,6 +4,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -12,7 +14,53 @@ import com.example.fooddeliveryapp.RestaurantActivity
 import com.example.fooddeliveryapp.models.Restaurant
 import kotlinx.android.synthetic.main.layout_restaurant_list_item.view.*
 
-class RestaurantRecyclerAdapter(val restaurants : List<Restaurant>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RestaurantSearchRecyclerAdapter(val restaurants : ArrayList<Restaurant>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+
+    private  var restaurantListAll : ArrayList<Restaurant>
+    private var restaurantList: ArrayList<Restaurant>?
+
+    init {
+        restaurantListAll = restaurants
+        restaurantList = restaurants
+    }
+
+    private val filter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence): FilterResults? {
+
+            val filteredList : ArrayList<Restaurant>? = null
+
+            if(constraint.toString().isNullOrEmpty()) {
+
+                filteredList!!.addAll(restaurantListAll)
+
+            } else {
+
+                for (restaurant in restaurantListAll!!) {
+
+                    if(restaurant!!.ime.toLowerCase().contains(constraint.toString().toLowerCase())) {
+
+                        filteredList!!.add(restaurant)
+                    }
+                }
+            }
+
+            var filterResults: FilterResults? = null
+            filterResults!!.values = filteredList
+
+            return filterResults
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        override fun publishResults(constraint: CharSequence, results: FilterResults?) {
+            //restaurantList.clear()
+            restaurantListAll = results?.values as ArrayList<Restaurant>
+            notifyDataSetChanged()
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return filter
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -30,7 +78,7 @@ class RestaurantRecyclerAdapter(val restaurants : List<Restaurant>) : RecyclerVi
         when(holder){
 
             is RestaurantViewHolder ->{
-                holder.bind(restaurants.get(position))
+                holder.bind(restaurants.get(position)!!)
                 holder.restaurant = restaurants.get(position)
             }
         }
@@ -58,7 +106,7 @@ class RestaurantRecyclerAdapter(val restaurants : List<Restaurant>) : RecyclerVi
 
             var restaurantId = restaurantPost.id.toString()
 
-            var image_url = "http://s3.eu-central-1.amazonaws.com/donesi.projekat/restorani/".plus(restaurantId).plus(".jpg")
+            var image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/restorani/".plus(restaurantId).plus(".jpg")
 
 
             val requestOptions = RequestOptions()

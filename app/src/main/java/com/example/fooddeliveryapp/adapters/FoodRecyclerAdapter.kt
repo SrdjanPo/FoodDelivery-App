@@ -9,6 +9,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.models.Food
+import com.example.fooddeliveryapp.models.NarudzbaBean
+import com.example.fooddeliveryapp.models.Order
+import com.example.fooddeliveryapp.models.Stavka
 import kotlinx.android.synthetic.main.layout_food_list_item.view.*
 
 
@@ -43,13 +46,16 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
                     holder.internalCounter++
                     clickCounter++
 
+                    Log.d("jelooo", foods.get(position).toString())
+
                 }
 
                 holder.itemView.order_button.setOnClickListener {
 
-                    orderList.add(foods.get(position))
-                    Log.d("BIND KORPA", orderList.toString())
-                    mCallback.onOrderAdded(orderList)
+                    var stavka = Stavka(foods.get(position), NarudzbaBean(0),1)
+                    orderListFull.add(stavka)
+                    Log.d("BIND KORPA", orderListFull.toString())
+                    mCallback.onOrderAdded(orderListFull)
                 }
 
             }
@@ -88,6 +94,9 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
 
         fun bind (foodPost: Food, pos: Int){
 
+            Log.d("indeks i internal", indeks.toString().plus( " : ").plus(internalCounter.toString()))
+            //Log.d("indeks i pos", indeks.toString().plus( " : ").plus(pos.toString()))
+
             if(indeks == pos && internalCounter%2 == 0) {
 
                 basicFoodLayout.animate().alpha(0.0f).setDuration(300)
@@ -96,6 +105,7 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
                 basicFoodLayout.visibility = View.GONE
                 extendedFoodLayout.visibility = View.VISIBLE
 
+                Log.d("ordinary", "asd")
 
 
             } else {
@@ -107,6 +117,9 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
 
                 basicFoodLayout.visibility = View.VISIBLE
                 extendedFoodLayout.visibility = View.GONE
+
+                Log.d("extended", "asd")
+
 
             }
 
@@ -120,7 +133,7 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
 
             val foodId = foodPost.id.toString()
 
-            val image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/jelo/".plus(foodId).plus(".jpg")
+            val image_url = "http://s3.eu-central-1.amazonaws.com/donesi.projekat/jela/".plus(foodId).plus(".jpg")
 
             //var image_url = "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
 
@@ -147,10 +160,11 @@ class FoodRecyclerAdapter (val foods : List<Food>, val mCallback : AddOrderListe
         var indeks: Int = -1
         var clickCounter: Int = 1
         var orderList = arrayListOf<Food>()
+        var orderListFull = arrayListOf<Stavka>()
     }
 
     interface AddOrderListener {
-        fun onOrderAdded(orders: ArrayList<Food>)
+        fun onOrderAdded(orders: ArrayList<Stavka>)
     }
 
 }

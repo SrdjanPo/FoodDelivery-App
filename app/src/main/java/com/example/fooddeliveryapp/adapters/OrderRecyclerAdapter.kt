@@ -9,9 +9,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.models.Food
+import com.example.fooddeliveryapp.models.Stavka
 import kotlinx.android.synthetic.main.layout_order_list_item.view.*
 
-class OrderRecyclerAdapter(val orders: List<Food>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class OrderRecyclerAdapter(val orders: List<Stavka>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -29,7 +30,7 @@ class OrderRecyclerAdapter(val orders: List<Food>) : RecyclerView.Adapter<Recycl
         when(holder){
 
             is OrderViewHolder ->{
-                holder.bind(orders.get(position))
+                holder.bind(orders.get(position).jeloBean)
                 holder.order = orders.get(position)
             }
         }
@@ -41,7 +42,7 @@ class OrderRecyclerAdapter(val orders: List<Food>) : RecyclerView.Adapter<Recycl
     }
 
 
-    class OrderViewHolder( itemView: View, var order: Food? = null) : RecyclerView.ViewHolder(itemView) {
+    class OrderViewHolder( itemView: View, var order: Stavka? = null) : RecyclerView.ViewHolder(itemView) {
 
         val foodName = itemView.orderItem_name
         val foodAbout = itemView.orderItem_about

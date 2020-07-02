@@ -12,16 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".SearchActivity"
+            android:theme="@style/SearchTheme">
+
+        </activity>
         <activity
             android:name=".FoodActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".RestaurantActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".StartupActivity"
             android:screenOrientation="portrait"
@@ -32,7 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

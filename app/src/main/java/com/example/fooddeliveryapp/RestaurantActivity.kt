@@ -9,11 +9,13 @@ import com.example.fooddeliveryapp.models.Restaurant
 import kotlinx.android.synthetic.main.activity_restaurant.*
 import android.view.WindowManager
 import android.os.Build
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.models.Food
 import com.example.fooddeliveryapp.adapters.FoodRecyclerAdapter
 import com.example.fooddeliveryapp.adapters.RestaurantRecyclerAdapter
+import com.example.fooddeliveryapp.models.Stavka
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
@@ -25,7 +27,7 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
     private var restaurantId: Int = 0
     private var cijenaDostave: Int = 0
-    private var listItems = arrayListOf<Food>()
+    private var listItems = arrayListOf<Stavka>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +54,8 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
         food_recyclerview.addItemDecoration(topSpacingDecoration)
 
         intent.let {
-            val restaurant = intent.extras!!.getParcelable(RestaurantRecyclerAdapter.RESTAURANT) as Restaurant?
+            val restaurant =
+                intent.extras!!.getParcelable(RestaurantRecyclerAdapter.RESTAURANT) as Restaurant?
 
 
             restaurant_name.text = restaurant!!.ime
@@ -66,7 +69,9 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
             var restaurantId = restaurant.id.toString()
 
-            var image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/restorani/".plus(restaurantId).plus(".jpg")
+            var image_url =
+                "https://s3.eu-central-1.amazonaws.com/donesi.projekat/restorani/".plus(restaurantId)
+                    .plus(".jpg")
 
             val requestOptions = RequestOptions()
                 .placeholder(R.drawable.ic_launcher_background)
@@ -80,9 +85,7 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
         }
 
         /*intent.let {
-
             val foodItem = intent.extras!!.getParcelable(FoodActivity.FOOD_ITEM) as Food?
-
             Log.d("JELO", foodItem.toString())
         }*/
 
@@ -90,6 +93,7 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
         fetchFood()
 
         backButton.setOnClickListener {
+            FoodRecyclerAdapter.orderListFull.clear()
             FoodRecyclerAdapter.orderList.clear()
             listItems.clear()
 
@@ -102,12 +106,14 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
     fun fetchFood() {
 
 
-        val url =  "http://ec2-52-59-235-7.eu-central-1.compute.amazonaws.com:8080/".plus(restaurantId).plus("/jela")
+        val url =
+            "http://ec2-52-59-235-7.eu-central-1.compute.amazonaws.com:8080/".plus(restaurantId)
+                .plus("/jela")
 
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
 
-        client.newCall(request).enqueue(object: Callback {
+        client.newCall(request).enqueue(object : Callback {
 
             override fun onResponse(call: Call, response: Response) {
 
@@ -120,6 +126,8 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
                 val foods = gson
                     .fromJson(body, collectionType) as List<Food>
+
+                Log.d("foods", foods.toString())
 
 
                 runOnUiThread {
@@ -139,9 +147,11 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
         })
 
+        restaurant_view.visibility = View.VISIBLE
+        restaurant_loader.visibility = View.GONE
     }
 
-    override fun onOrderAdded(orders: ArrayList<Food>) {
+    override fun onOrderAdded(orders: ArrayList<Stavka>) {
 
         listItems.clear()
 
@@ -150,9 +160,9 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
         var sumPrice = 0
 
-        for(item in listItems) {
+        for (item in listItems) {
 
-            sumPrice = sumPrice + item.cijena
+            sumPrice = sumPrice + item.jeloBean.cijena
         }
 
         if (listItems.isEmpty()) {
@@ -169,17 +179,22 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
         }
     }
 
+    fun killActivity() {
+
+        finish()
+    }
+
 
     override fun onBackPressed() {
         super.onBackPressed()
 
         FoodRecyclerAdapter.orderList.clear()
+        FoodRecyclerAdapter.orderListFull.clear()
 
     }
 
     companion object {
 
-         val ORDER_LIST = "orderList"
+        val ORDER_LIST = "orderList"
     }
-
 }

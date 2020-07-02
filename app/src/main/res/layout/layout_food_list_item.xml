@@ -21,7 +21,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewImage"
         android:layout_width="0dp"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         app:layout_constraintWidth_percent="0.4"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,8 +32,9 @@
         <ImageView
             android:id="@+id/food_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -46,9 +47,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cardViewImage"
         android:text="Food name"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textColor="#000"
-        android:maxLines="1">
+        android:maxLines="2">
     </TextView>
 
     <TextView
@@ -60,8 +61,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cardViewImage"
         android:text="Food content"
-        android:layout_marginTop="3dp"
-        android:textSize="13sp"
+        android:textSize="17sp"
         android:maxLines="2">
     </TextView>
 
@@ -74,8 +74,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cardViewImage"
         android:text="200 din"
-        android:layout_marginTop="3dp"
-        android:textSize="14sp">
+        android:textSize="18sp">
     </TextView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

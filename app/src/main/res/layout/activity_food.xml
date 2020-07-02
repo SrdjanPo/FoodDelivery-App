@@ -14,6 +14,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topID"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -99,13 +100,92 @@
 
             </TextView>
 
+            <LinearLayout
+                android:id="@+id/infoLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/totalPriceView"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginTop="30dp">
+
+                <EditText
+                    android:id="@+id/order_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ime"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:maxLines="1"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:textSize="15sp"
+                    android:layout_weight="1">
+
+                </EditText>
+
+                <EditText
+                    android:id="@+id/order_phoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Broj telefona"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:maxLines="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:textSize="15sp"
+                    android:layout_weight="1">
+
+                </EditText>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/order_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Adresa"
+                android:inputType="text"
+                android:padding="10dp"
+                android:maxLines="1"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_edittext"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@+id/infoLinear">
+
+            </EditText>
+
+            <EditText
+                android:id="@+id/order_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="text"
+                android:padding="10dp"
+                android:maxLines="1"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_edittext"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@+id/order_address">
+
+            </EditText>
+
 
             <EditText
                 android:id="@+id/dodatni_komentar"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="25dp"
                 android:background="@drawable/rounded_edittext"
                 android:hint="Dodatni komentar"
@@ -115,99 +195,191 @@
                 android:scrollbars="vertical"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/totalPriceView"
+                app:layout_constraintTop_toBottomOf="@id/order_email"
+                android:inputType="text" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/successView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:inputType="text"
-                android:layout_marginBottom="100dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="20dp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:visibility="gone">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:elevation="8dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:id="@+id/successImage"
+                            android:layout_width="128dp"
+                            android:layout_height="128dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/success"
+                            android:maxHeight="64dp"
+                            android:maxWidth="64dp">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/orderSuccessful"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Your order is successful"
+                            android:textSize="25sp"
+                            app:layout_constraintTop_toBottomOf="@id/successImage"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="30dp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/thankyou"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thank you!"
+                            android:textSize="20sp"
+                            app:layout_constraintTop_toBottomOf="@id/orderSuccessful"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+
+                        </TextView>
+
+                        <Button
+                            android:id="@+id/orderFinished"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Continue"
+                            app:layout_constraintTop_toBottomOf="@id/thankyou"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:background="@drawable/order_button_background"
+                            android:layout_marginTop="30dp">
+
+                        </Button>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cartLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/white"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:elevation="5dp"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/dodatni_komentar"
+                android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/cart_layout_background"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/orderCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1x"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:textSize="18sp"
+                            android:layout_weight="1"
+                            android:gravity="center">
+                        </TextView>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Naruci"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:textSize="18sp"
+                            android:layout_weight="1"
+                            android:gravity="center">
+                        </TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/orderTotal"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1200 дин"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:textSize="18sp"
+                            android:layout_weight="1"
+                            android:gravity="center">
+                        </TextView>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 
-    <RelativeLayout
-        android:id="@+id/cartLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/white"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:elevation="5dp"
-        android:visibility="visible">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:background="@drawable/cart_layout_background"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/orderCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1x"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:textSize="18sp"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                </TextView>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Naruci"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:textSize="18sp"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                </TextView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/orderTotal"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1200 дин"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:textSize="18sp"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                </TextView>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </RelativeLayout>
 
 </FrameLayout>
