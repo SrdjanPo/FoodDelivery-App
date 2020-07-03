@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.RestaurantActivity
 import com.example.fooddeliveryapp.models.Restaurant
-import kotlinx.android.synthetic.main.layout_restaurant_list_item.view.*
+import kotlinx.android.synthetic.main.layout_search_list_item.view.*
 
 class RestaurantSearchRecyclerAdapter(val restaurants : ArrayList<Restaurant>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
@@ -66,7 +66,7 @@ class RestaurantSearchRecyclerAdapter(val restaurants : ArrayList<Restaurant>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RestaurantViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.layout_restaurant_list_item,
+                R.layout.layout_search_list_item,
                 parent,
                 false
             )
@@ -92,21 +92,21 @@ class RestaurantSearchRecyclerAdapter(val restaurants : ArrayList<Restaurant>) :
 
     class RestaurantViewHolder( itemView: View, var restaurant: Restaurant? = null) : RecyclerView.ViewHolder(itemView) {
 
-        val restaurantImage = itemView.restaurant_image
-        val restaurantTitle = itemView.restaurant_name
-        val restaurantName = itemView.about_restaurant
-        val restaurantOrderPrice = itemView.restaurant_orderPrice
+        val restaurantImage = itemView.search_restaurant_image
+        val restaurantName = itemView.search_restaurant_name
+        val restaurantAbout = itemView.search_restaurant_about
+        val restaurantOrderPrice = itemView.search_restaurant_price
 
         fun bind (restaurantPost: Restaurant){
 
 
-            restaurantTitle.setText(restaurantPost.ime)
-            restaurantName.setText(restaurantPost.opis)
+            restaurantName.setText(restaurantPost.ime)
+            restaurantAbout.setText(restaurantPost.opis)
             restaurantOrderPrice.setText(restaurantPost.cijenaDostave.toString().plus(" дин • Delivery"))
 
             var restaurantId = restaurantPost.id.toString()
 
-            var image_url = "https://s3.eu-central-1.amazonaws.com/donesi.projekat/restorani/".plus(restaurantId).plus(".jpg")
+            var image_url = "http://s3.eu-central-1.amazonaws.com/donesi.projekat/restorani/".plus(restaurantId).plus(".jpg")
 
 
             val requestOptions = RequestOptions()

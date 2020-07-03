@@ -74,6 +74,9 @@ class MainActivity : AppCompatActivity(), RestaurantRecyclerAdapter.OnRestaurant
                 runOnUiThread {
                     recycler_view.adapter =
                         RestaurantRecyclerAdapter(restaurants)
+
+                    progress_loader.visibility = View.GONE
+                    recycler_view.visibility = View.VISIBLE
                 }
 
             }

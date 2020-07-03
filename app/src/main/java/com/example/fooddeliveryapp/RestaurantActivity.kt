@@ -136,6 +136,8 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
                             foods,
                             this@RestaurantActivity
                         )
+                    restaurant_view.visibility = View.VISIBLE
+                    restaurant_loader.visibility = View.GONE
                 }
 
             }
@@ -147,8 +149,6 @@ class RestaurantActivity : AppCompatActivity(), FoodRecyclerAdapter.AddOrderList
 
         })
 
-        restaurant_view.visibility = View.VISIBLE
-        restaurant_loader.visibility = View.GONE
     }
 
     override fun onOrderAdded(orders: ArrayList<Stavka>) {

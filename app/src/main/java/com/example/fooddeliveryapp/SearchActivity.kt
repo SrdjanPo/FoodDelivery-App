@@ -1,11 +1,15 @@
 package com.example.fooddeliveryapp
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,11 +22,12 @@ import kotlinx.android.synthetic.main.activity_search.*
 import okhttp3.*
 import java.io.IOException
 import androidx.core.view.MenuItemCompat.getActionView
-
+import androidx.core.widget.ImageViewCompat
 
 
 class SearchActivity : AppCompatActivity() {
 
+    private var mRestaurants = arrayListOf<Restaurant>()
     private var fullRestaurantList = arrayListOf<Restaurant>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,12 +65,13 @@ class SearchActivity : AppCompatActivity() {
                 val restaurants = gson
                     .fromJson(body, collectionType) as ArrayList<Restaurant>
 
+                mRestaurants.addAll(restaurants)
                 fullRestaurantList.clear()
                 fullRestaurantList.addAll(restaurants)
 
                 runOnUiThread {
                     search_recyclerview.adapter =
-                        RestaurantSearchRecyclerAdapter(restaurants)
+                        RestaurantSearchRecyclerAdapter(fullRestaurantList)
                 }
 
             }
@@ -85,6 +91,14 @@ class SearchActivity : AppCompatActivity() {
         if (searchItem != null) {
 
             val searchView = searchItem.actionView as SearchView
+            val editText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+            val closeBtn = searchView.findViewById<AppCompatImageView>(androidx.appcompat.R.id.search_close_btn)
+            val backBtn = searchView.findViewById<AppCompatImageView>(androidx.appcompat.R.id.up)
+
+
+            editText.hint = "Pretrazi restoran..."
+            editText.setTextColor(Color.BLACK)
+            ImageViewCompat.setImageTintList(closeBtn, ColorStateList.valueOf(Color.BLACK))
 
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -92,7 +106,25 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    RestaurantSearchRecyclerAdapter(fullRestaurantList).filter.filter(newText)
+                    if(newText!!.isNotEmpty()) {
+
+                        fullRestaurantList.clear()
+
+                        val search = newText.toLowerCase()
+
+                        mRestaurants.forEach {
+                            if(it.ime.toLowerCase().contains(search)) {
+
+                                fullRestaurantList.add(it)
+                            }
+                        }
+                        search_recyclerview.adapter!!.notifyDataSetChanged()
+
+                    } else {
+                        fullRestaurantList.clear()
+                        fullRestaurantList.addAll(mRestaurants)
+                        search_recyclerview.adapter!!.notifyDataSetChanged()
+                    }
                     return true
                 }
             })

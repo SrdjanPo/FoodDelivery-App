@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/basicFoodLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:animateLayoutChanges="true">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintWidth_percent="0.4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/search_restaurant_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/search_restaurant_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/search_restaurant_about"
+            app:layout_constraintStart_toEndOf="@id/cardViewImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Food name"
+            android:textSize="17sp"
+            android:textColor="#000"
+            android:maxLines="2"
+            android:layout_marginStart="20dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/search_restaurant_about"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/search_restaurant_name"
+            app:layout_constraintBottom_toTopOf="@id/search_restaurant_price"
+            app:layout_constraintStart_toEndOf="@id/cardViewImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Food content"
+            android:textSize="14sp"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:layout_marginStart="20dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/search_restaurant_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/search_restaurant_about"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardViewImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="200 din"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_scooter_svgrepo"
+            android:drawablePadding="5dp"
+            android:gravity="left|center"
+            android:layout_marginStart="20dp">
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
